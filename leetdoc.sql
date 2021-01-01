@@ -9,8 +9,7 @@ CREATE TABLE `leetdoc`.`user` (
   `password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`userID`),
   UNIQUE INDEX `userID_UNIQUE` (`userID` ASC) VISIBLE,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE);
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE;
 
 /* Tag */
 CREATE TABLE `leetdoc`.`tag` (
