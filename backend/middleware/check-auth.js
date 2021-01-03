@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
     }
 
     const decodedToken = jwt.verify(token, env.JWT_KEY)
-    req.userData = { userId: decodedToken.userId }
+    req.userData = { username: decodedToken.username }
     next()
   } catch (err) {
     return next(err)
