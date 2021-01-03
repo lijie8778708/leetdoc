@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const router = express.Router()
 const sqlConfig = require('./config/mysql')
 const userRouter = require('./router/user-routes')
+const tagRouter = require('./router/tag-routes')
 
 const app = express()
 app.use(bodyParser.json())
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/user', userRouter)
+app.use('/tag', tagRouter)
 
 app.listen(3040, () => {
   console.log('ok')

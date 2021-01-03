@@ -8,7 +8,7 @@ const checkAuth = require('../middleware/check-auth')
 const router = express.Router()
 
 router.put(
-  '/save',
+  '/',
   [check('tagName').not().isEmpty(), check('userID').not().isEmpty()],
   saveTag
 )
