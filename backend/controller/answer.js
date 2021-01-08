@@ -7,10 +7,10 @@ db.connect(() => {
 })
 
 const saveAnswer = (req, res, next) => {
-  const { author, answer, date, questionID } = req.body
+  const { author, answer, questionID } = req.body
   db.query(
     sql.answer.insert,
-    [author, answer, date, questionID],
+    [author, answer, new Date(), questionID],
     (err, res2) => {
       let ret
       if (err) {
@@ -18,14 +18,14 @@ const saveAnswer = (req, res, next) => {
         resJson(res, ret, { msg: 'Something wrong' })
       } else {
         ret = 'save'
-        resJson(res, ret, { msg: 'Answer saved' })
+        resJson(res, ret, res2.insertId)
       }
     }
   )
 }
 
 const getAnswerById = (req, res, next) => {
-  const answerID = req.params.answerID
+  const answerID = req.params.id
   db.query(sql.answer.selectById, [answerID], (err, res2) => {
     let ret
     if (err) {
@@ -39,7 +39,7 @@ const getAnswerById = (req, res, next) => {
 }
 
 const getAnswerByQA = (req, res, next) => {
-  const questionID = req.params.questionID
+  const questionID = req.params.id
   db.query(sql.answer.selectByQuestion, [questionID], (err, res2) => {
     let ret
     if (err) {

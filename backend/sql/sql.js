@@ -8,7 +8,7 @@ const question = {
   selectById: `SELECT questionNO, topic, description, mainAns, tagID, user FROM question where questionID = ?`,
   selectByTag: `SELECT questionNO, topic, description, mainAns, user WHERE tagID = ?`,
   selectByQuestionNO: `SELECT * FROM question WHERE questionNO = ?`,
-  insert: `INSERT INTO question(questionNO, topic, description, mainAns, tagID, user) values(?,?,?,?,?,?)`,
+  insert: `INSERT INTO question(questionNO, topic, description, tagID, user) values(?,?,?,?,?)`,
   update: `UPDATE question SET mainAns = ? WHERE questionID=?`,
   remove: `DELETE FROM question WHERE questionID = ?`,
 }

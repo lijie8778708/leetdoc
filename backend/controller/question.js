@@ -7,10 +7,10 @@ db.connect(() => {
 })
 
 const saveQuestion = (req, res, next) => {
-  const { questionNO, topic, description, mainAns, tagID, user } = req.body
+  const { questionNO, topic, description, tagID, user } = req.body
   db.query(
     sql.questoin.insert,
-    [questionNO, topic, description, mainAns, tagID, user],
+    [questionNO, topic, description, tagID, user],
     (err, res2) => {
       let ret
       if (err) {
@@ -25,7 +25,7 @@ const saveQuestion = (req, res, next) => {
 }
 
 const getQuestionById = (req, res, next) => {
-  const id = req.params.questionID
+  const id = req.params.id
   db.query(sql.questoin.selectById, [id], (err, res2) => {
     let ret
     if (err) {
@@ -39,11 +39,12 @@ const getQuestionById = (req, res, next) => {
 }
 
 const getQuestionByNo = (req, res, next) => {
-  const questionNO = req.params.questionNO
+  const questionNO = req.params.NO
   db.query(sql.questoin.selectByQuestionNO, [questionNO], (err, res2) => {
     let ret
     if (err) {
-      ;(ret = 'fail'), resJson(res, ret, { msg: 'Something wrond' })
+      ret = 'fail'
+      resJson(res, ret, { msg: 'Something wrond' })
     } else {
       ret = 'find'
       resJson(res, ret, res2)
@@ -51,6 +52,21 @@ const getQuestionByNo = (req, res, next) => {
   })
 }
 
+const updateMainAns = (req, res, next) => {
+  const { questionID, mainAns } = req.body
+  db.query(sql.questoin.update, [mainAns, questionID], (err, res2) => {
+    let ret
+    if (err) {
+      ret = 'fail'
+      resJson(res, ret, { msg: 'Something wrong' })
+    } else {
+      ret = 'update'
+      resJson(res, ret, { msg: 'main answer updated' })
+    }
+  })
+}
+
 exports.getQuestionByNo = getQuestionByNo
 exports.saveQuestion = saveQuestion
 exports.getQuestionById = getQuestionById
+exports.updateMainAns = updateMainAns
