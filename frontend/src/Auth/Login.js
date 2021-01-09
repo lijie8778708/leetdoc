@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-
+import axios from 'axios'
+import Popup from '../Components/Popup'
 class Login extends Component {
   constructor() {
     super()
@@ -7,9 +8,13 @@ class Login extends Component {
       stage: 'sign-in',
       username: '',
       password: '',
+      showPopup: false,
+      msg: '',
+      code: 0,
     }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.submit = this.submit.bind(this)
   }
   handleInputChange(event) {
     const k = event.target.name
@@ -22,6 +27,54 @@ class Login extends Component {
   }
   handleClick() {
     this.props.handler(this.state)
+  }
+  submit() {
+    if (this.state.username === '' || this.state.password == '') {
+      this.setState({
+        msg: 'Missing username or password',
+        code: 400,
+        showPopup: !this.state.showPopup,
+      })
+    } else {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      const body = JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+      })
+
+      try {
+        axios.post('/user/login', body, config).then((res) => {
+          if (res.data.code === '200') {
+            this.setState({
+              msg: 'Welcome!',
+              showPopup: !this.state.showPopup,
+              code: 200,
+            })
+            //   this.props.handler(this.state)
+          } else if (res.data.code === '400') {
+            this.setState({
+              msg: res.data.data.msg,
+              showPopup: !this.state.showPopup,
+              code: 400,
+            })
+          }
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    })
+    if (this.state.code === 200) {
+      this.props.handler('dashboard')
+    }
   }
   render() {
     return (
@@ -53,9 +106,21 @@ class Login extends Component {
         </div>
 
         <p className='forgot-password text-right'>
-          Not Registered Yet <a onClick={this.handleClick}>sign up?</a>
+          Not Registered Yet{' '}
+          <a style={{ color: 'blue' }} onClick={this.handleClick}>
+            sign up?
+          </a>
         </p>
-        <button className='btn btn-primary btn-block'>Submit</button>
+        <button className='btn btn-primary btn-block' onClick={this.submit}>
+          Submit
+        </button>
+        {this.state.showPopup ? (
+          <Popup
+            text={this.state.msg}
+            closePopup={this.togglePopup.bind(this)}
+            button={this.state.code === 200 ? 'btn-primary' : 'btn-danger'}
+          />
+        ) : null}
       </div>
     )
   }

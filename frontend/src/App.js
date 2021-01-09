@@ -3,7 +3,12 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Login from './Auth/Login'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import './App.css'
+import axios from 'axios'
 import SignUp from './Auth/SignUp'
+import Dashboard from './Components/Dashboard'
+
+/* global chrome */
+axios.defaults.baseURL = 'http://localhost:3040'
 class App extends Component {
   constructor() {
     super()
@@ -29,6 +34,7 @@ class App extends Component {
         <div className='auth-inner' style={{ height: '350px', width: '300px' }}>
           {this.state.stage === 0 && <Login handler={this.handler} />}
           {this.state.stage === 1 && <SignUp handler={this.handler} />}
+          {this.state.stage === 2 && <Dashboard handler={this.handler} />}
         </div>
       </div>
     )

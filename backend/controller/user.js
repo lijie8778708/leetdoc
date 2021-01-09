@@ -32,7 +32,7 @@ const signUp = (req, res, next) => {
             result = { token }
           } else {
             ret = 'fail'
-            result = { msg: err.message }
+            result = { msg: 'Signup fail, try later' }
           }
           resJson(res, ret, result)
         })
