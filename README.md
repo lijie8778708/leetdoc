@@ -2,8 +2,7 @@
 
 ##### Description
 
-​		A chrome extension that allow you to save awesome leetcode solution from your code area, discussion, and submission.
-
+​		A chrome extension that allow you to save awesome answer from stackoverflow
 [toc]
 
 ### 1. work flow
